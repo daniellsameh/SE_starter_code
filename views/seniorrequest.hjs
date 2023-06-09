@@ -8,7 +8,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <script>
-    $(document).ready(function() {
+$(document).ready(function() {
   $("#seniorRequestForm").submit(function(event) {
     event.preventDefault();
 
@@ -17,7 +17,7 @@
 
     $.ajax({
       type: "PUT",
-      url: "/api/v1/requests/senior/1", 
+      url: "/api/v1/requests/senior/1", // Replace "1" with the actual requestId you want to update
       data: {
         seniorStatus: seniorStatus
       },
@@ -31,7 +31,7 @@
       }
     });
   });
-});
+})
   </script>
   <h1>Senior Request Page</h1>
 

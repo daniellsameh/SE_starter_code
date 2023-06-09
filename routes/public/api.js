@@ -23,7 +23,7 @@ app.post("/api/v1/user", async function (req, res) {
     };
     try {
       const user = await db("se_project.users").insert(newUser).returning("*");
-
+      
       return res.status(200).json(user );
     } catch (e) {
       console.log(e.message);
@@ -34,6 +34,7 @@ app.post("/api/v1/user", async function (req, res) {
   // Register HTTP endpoint to create new user
   app.post("/api/v1/user/login", async function (req, res) {
     // get users credentials from the JSON body
+   
     const { email, password } = req.body;
     if (!email) {
       // If the email is not present, return an HTTP unauthorized code
@@ -62,20 +63,20 @@ app.post("/api/v1/user", async function (req, res) {
     // set the expiry time as 15 minutes after the current time
     const token = v4();
     const currentDateTime = new Date();
-    const expiresat = new Date(+currentDateTime + 900000); // expire in 15 minutes
+    const expiresAt = new Date(+currentDateTime + 900000); // expire in 15 minutes
 
     // create a session containing information about the user and expiry time
     const session = {
       userid: user.id,
       token,
-      expiresat,
+      expiresat:expiresAt,
     };
     try {
       await db("se_project.sessions").insert(session);
       // In the response, set a cookie on the client with the name "session_cookie"
       // and the value as the UUID we generated. We also set the expiration time.
       return res
-        .cookie("session_token", token, { expires: expiresat })
+        .cookie("session_token", token, { expires: expiresAt })
         .status(200)
         .send("login successful");
     } catch (e) {
@@ -83,4 +84,5 @@ app.post("/api/v1/user", async function (req, res) {
       return res.status(400).send("Could not register user");
     }
   });
+
 }

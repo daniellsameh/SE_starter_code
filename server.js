@@ -20,11 +20,11 @@ app.use(express.urlencoded({extended:true}));
 
 // uncomment to view frontend
 publicViewRoutes(app);
-publicApiRoutes(app);// uncomment
+publicApiRoutes(app);
 
 // If the request is not for a public view/api, then it must pass
 // through our authentication middleware first
- app.use(authMiddleware); // uncomment
+ app.use(authMiddleware); 
 
 // The routes/views below can only be accessed if the user is authenticated
 
@@ -38,4 +38,4 @@ app.use(function(req, res, next) {
 });
 
 // Create HTTP Server and Listen for Requests
-app.listen(3000);
+app.listen(5500);
