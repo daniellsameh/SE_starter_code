@@ -9,6 +9,8 @@
     </head>
   </head>
   <body>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
       <script>
       $(document).ready(function(){
         $("#submit").click(function() {
@@ -37,6 +39,29 @@
           });
         });
       });
+  $(document).ready(function() {
+  $("#resetPassword").submit(function(event) {
+    event.preventDefault();
+
+    var newPassword = $("#newPassword").val();
+
+    $.ajax({
+      type: "PUT",
+      url: "/api/v1/password/reset",
+      data: {
+        newPassword: newPassword
+      },
+      success: function(response) {
+        console.log(response);
+        // Handle success
+      },
+      error: function(error) {
+        console.log(error);
+        // Handle error
+      }
+    });
+  });
+});
       </script>    
     <div>
       <nav class="navbar navbar-inverse" style="padding-left:130px;">
@@ -69,6 +94,27 @@
               Need to register? click <a href="/register">here.</a>
           </div>
       </div>
+        <!-- Password Reset Section -->
+  <section id="reset" style="display: block;">
+    <h2>Reset Password</h2>
+    <form>
+      <input type="email" placeholder="Email" required>
+      <button type="submit">Reset Password</button>
+    </form>
+    <p>Remembered your password? <a href="#" onclick="toggleForm('login')">Login</a></p>
+  </section>
+
+  <script>
+    function toggleForm(formId) {
+      const forms = document.querySelectorAll('section');
+      forms.forEach(form => {
+        form.style.display = 'none';
+      });
+
+      const selectedForm = document.getElementById(formId);
+      selectedForm.style.display = 'block';
+    }
+  </script>
   </form>
     </div>
   </body>
