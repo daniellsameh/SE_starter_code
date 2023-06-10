@@ -3,73 +3,111 @@
 <head>
   <title>Edit Station - Admin Page</title>
   <link rel="stylesheet" href="styled5.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.min.js" type="text/javascript"></script>
 </head>
 <body>
   <h1>Edit Station - Admin Page</h1>
+
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+  <form id="updateStationForm">
+    <label for="newStationName">Station Name:</label>
+    <input type="text" id="newStationName" name="newStationName" required>
 
-  <script>
-     // Update a station
-     $(document).ready(function(){
-  $("#updateStationForm").submit(function(event) {
-    event.preventDefault();
+    <label for="stationCode">Station Code:</label>
+    <input type="text" id="stationCode" name="stationCode" required>
 
-    var stationId = $("#stationId").val();
-    var stationName = $("#newStationName").val();
-
-    $.ajax({
-      type: "PUT",
-      url: "/api/v1/station/" + stationId,
-      data: JSON.stringify({ stationName: stationName }),
-      contentType: "application/json",
-      success: function(response) {
-        console.log(response);
-        // Handle success
-      },
-      error: function(error) {
-        console.log(error);
-        // Handle error
-      }
-    });
-  });
- });
-
-      // Delete a station
-  $(document).ready(function(){
-  $("#deleteStationForm").submit(function(event) {
-    event.preventDefault();
-
-    var stationId = $("#deleteStationId").val();
-
-    $.ajax({
-      type: "DELETE",
-      url: "/api/v1/station/" + stationId,
-      success: function(response) {
-        console.log(response);
-        // Handle success
-      },
-      error: function(error) {
-        console.log(error);
-        // Handle error
-      }
-    });
-  });
-     });
-
-  </script>
-
-  <form>
-    <label for="station-name">Station Name:</label>
-    <input type="text" id="station-name" name="station-name" required>
-
-    <label for="station-code">Station Code:</label>
-    <input type="text" id="station-code" name="station-code" required>
-
-    <label for="station-location">Station Location:</label>
-    <input type="text" id="station-location" name="station-location" required>
+    <label for="stationLocation">Station Location:</label>
+    <input type="text" id="stationLocation" name="stationLocation" required>
 
     <button type="submit">Update Station</button>
   </form>
+
+  <script>
+    $(document).ready(function() {
+      // Update a station
+      $("#updateStationForm").submit(function(event) {
+        event.preventDefault();
+
+        var stationId = $("#stationId").val();
+        var stationName = $("#newStationName").val();
+
+        $.ajax({
+          type: "PUT",
+          url: "/api/v1/station/" + stationId,
+          data: JSON.stringify({ stationName: stationName }),
+          contentType: "application/json",
+          success: function(response) {
+            console.log(response);
+            // Handle success
+          },
+          error: function(error) {
+            console.log(error);
+            // Handle error
+          }
+        });
+      });
+
+      // Edit button click event handler
+      $(document).on("click", ".edit-btn", function() {
+        var stationId = $(this).closest("tr").find(".station-id").val();
+        var stationName = $(this).closest("tr").find(".station-name").text();
+        // Perform edit logic using the stationId and stationName
+        console.log("Edit station ID:", stationId);
+        console.log("Edit station name:", stationName);
+        // Add your custom edit logic here
+        // Update the station name directly in the table or send an AJAX request
+      });
+
+      // Delete a station
+      $("#deleteStationForm").submit(function(event) {
+        event.preventDefault();
+
+        var stationId = $("#deleteStationId").val();
+
+        $.ajax({
+          type: "DELETE",
+          url: "/api/v1/station/" + stationId,
+          success: function(response) {
+            console.log(response);
+            // Handle success
+          },
+          error: function(error) {
+            console.log(error);
+            // Handle error
+          }
+        });
+      });
+    });
+  </script>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Station Name</th>
+        <th>Station Code</th>
+        <th>Station Description</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="station-name">Station A</td>
+        <td>A</td>
+        <td>This is Station A</td>
+        <td>
+          <form id="updateStationForm">
+            <input type="hidden" id="stationId" class="station-id" value="1">
+            <input type="text" id="stationName" placeholder="Enter station name">
+            <button type="submit">Update Name</button>
+          </form>
+          <button class="edit-btn">Edit</button>
+        </td>
+      </tr>
+      <!-- Add more rows for each station -->
+    </tbody>
+  </table>
 </body>
 </html>
